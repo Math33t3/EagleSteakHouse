@@ -24,8 +24,8 @@ public class DrinkController {
         return new ResponseEntity<>(drink, HttpStatus.OK);
     }
 
-    @GetMapping("/getDrinkMenu")
-    public ResponseEntity<Set<Drink>> getDrinkMenu(){
+    @GetMapping("/getDrinkList")
+    public ResponseEntity<Set<Drink>> getDrinkList(){
         return new ResponseEntity<>(drinkService.findAll(),HttpStatus.OK);
     }
 
@@ -43,5 +43,29 @@ public class DrinkController {
         //Hvis den Optional er tom returneres en negativ HTTP status
             return new ResponseEntity<>(voidDrink,HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/updateDrink")
+    public ResponseEntity<Drink> updateDrink(@RequestParam Long id, @RequestParam String name,
+                                             @RequestParam int price){
+        Drink drink = new Drink();
+        drink.setId(id);
+        drink.setName(name);
+        drink.setPrice(price);
+        drinkService.save(drink);
+        return new ResponseEntity<>(drink, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteDrinkById")
+    public ResponseEntity<String> deleteDrinkById(@RequestParam Long id){
+        Optional<Drink> drinkOptional = drinkService.findById(id);
+        String msg;
+        if(drinkOptional.isPresent()) {
+            drinkService.deleteById(id);
+            msg = "Drink with ID :" + id + " has been deleted.";
+        }else{
+            msg = "This drink-ID does not exist, nothing was deleted. Type an existing ID.";
+        }
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 }

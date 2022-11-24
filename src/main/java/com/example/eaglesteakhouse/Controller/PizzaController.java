@@ -24,8 +24,8 @@ public class PizzaController {
         return new ResponseEntity<>(pizza, HttpStatus.OK);
     }
 
-    @GetMapping("/getPizzaMenu")
-    public ResponseEntity<Set<Pizza>> getPizzaMenu(){
+    @GetMapping("/getPizzaList")
+    public ResponseEntity<Set<Pizza>> getPizzaList(){
         return new ResponseEntity<>(pizzaService.findAll(),HttpStatus.OK);
     }
 
@@ -39,5 +39,32 @@ public class PizzaController {
         }else{
             return new ResponseEntity<>(voidPizza,HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/updatePizza")
+    public ResponseEntity<Pizza> updatePizza(@RequestParam Long id,@RequestParam String name,
+                                             @RequestParam String description, @RequestParam int regPrice,
+                                             @RequestParam int bigPrice){
+        Pizza pizza = new Pizza();
+        pizza.setName(name);
+        pizza.setDescription(description);
+        pizza.setRegPrice(regPrice);
+        pizza.setBigPrice(bigPrice);
+        pizza.setId(id);
+        pizzaService.save(pizza);
+        return new ResponseEntity<>(pizza, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deletePizzaById")
+    public ResponseEntity<String> deletePizzaById(@RequestParam Long id){
+        Optional<Pizza> pizzaOptional = pizzaService.findById(id);
+        String msg;
+        if(pizzaOptional.isPresent()){
+            pizzaService.deleteById(id);
+            msg = "Pizza with ID: " + id + " has been deleted.";
+        }else{
+            msg = "Pizza-ID does not exist, nothing was deleted. Type an existing ID.";
+        }
+        return new ResponseEntity<>(msg,HttpStatus.OK);
     }
 }

@@ -41,7 +41,6 @@ public class PizzaService implements IPizzaService{
 
     @Override
     public Optional<Pizza> findById(Long aLong) {
-        Optional<Pizza> pizzaById= findById(aLong);
-        return pizzaById;
+        return pizzaRepo.findById(aLong);
     }
 }

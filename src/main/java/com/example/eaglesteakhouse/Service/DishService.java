@@ -41,7 +41,6 @@ public class DishService implements IDishService{
 
     @Override
     public Optional<Dish> findById(Long aLong) {
-        Optional<Dish> dishOptional = dishRepo.findById(aLong);
-        return dishOptional;
+        return dishRepo.findById(aLong);
     }
 }

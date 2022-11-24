@@ -41,7 +41,6 @@ public class DrinkService implements IDrinkService{
 
     @Override
     public Optional<Drink> findById(Long aLong) {
-        Optional<Drink> drink = drinkRepo.findById(aLong);
-        return drink;
+        return drinkRepo.findById(aLong);
     }
 }
