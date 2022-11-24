@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -29,7 +30,18 @@ public class DrinkController {
     }
 
     @GetMapping("/getDrinkById")
+    //Bruger ResponseEntity til at sende et svar til kaldet på endpointed
     public ResponseEntity<Drink> getDrinkById(@RequestParam Long id){
-        return new ResponseEntity<>(drinkService.findById(id).get(), HttpStatus.OK);
+        //Vi bruger en Optional fordi det ikke er sikkert det man søger på er oprettet.
+        Optional<Drink> drinkOptional = drinkService.findById(id);
+        //Opretter et tomt Drink objekt til brug hvis den id der søges på ikke findes
+        Drink voidDrink = new Drink();
+        //Checker om Optional indeholder et Drink objekt
+        if(drinkOptional.isPresent()){
+            return new ResponseEntity<>(drinkOptional.get(), HttpStatus.OK);
+        }else{
+        //Hvis den Optional er tom returneres en negativ HTTP status
+            return new ResponseEntity<>(voidDrink,HttpStatus.NOT_FOUND);
+        }
     }
 }

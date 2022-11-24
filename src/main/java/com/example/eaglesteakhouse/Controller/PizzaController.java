@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -31,7 +32,12 @@ public class PizzaController {
 
     @GetMapping("/getPizzaById")
     public ResponseEntity<Pizza> getPizzaById(@RequestParam Long id){
-        return new ResponseEntity<>(pizzaService.findById(id).get(),HttpStatus.OK);
+        Optional<Pizza> pizzaOptional = pizzaService.findById(id);
+        Pizza voidPizza = new Pizza();
+        if(pizzaOptional.isPresent()){
+            return new ResponseEntity<>(pizzaOptional.get(),HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(voidPizza,HttpStatus.NOT_FOUND);
+        }
     }
-
 }
