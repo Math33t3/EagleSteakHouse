@@ -58,6 +58,7 @@ public class PizzaSandwichController {
         Optional<PizzaSandwich> pizzaSandwichOptional = pizzaSandwichService.findById(id);
         String msg;
         if(pizzaSandwichOptional.isPresent()){
+            pizzaSandwichService.deleteById(id);
             msg = "PizzaSandwich with ID: " + id + " has been deleted.";
         }else{
             msg = "This pizzaSandwich-ID does not exist, nothing was deleted. Type an existing ID.";

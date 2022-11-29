@@ -59,6 +59,7 @@ public class BurgerController {
         Optional<Burger> burgerOptional = burgerService.findById(id);
         String msg;
         if(burgerOptional.isPresent()){
+            burgerService.deleteById(id);
             msg = "Burger with ID: " + id + " has been deleted.";
         }else{
             msg = "This burger-ID does not exist, nothing was deleted. Type an existing ID.";

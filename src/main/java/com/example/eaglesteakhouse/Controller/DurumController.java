@@ -59,6 +59,7 @@ public class DurumController {
         Optional<Durum> durumOptional = durumService.findById(id);
         String msg;
         if(durumOptional.isPresent()){
+            durumService.deleteById(id);
             msg = "Durum with ID: " + id + " has been deleted.";
         }else{
             msg = "This durum-ID does not exist, nothing was deleted. Type an existing ID.";
