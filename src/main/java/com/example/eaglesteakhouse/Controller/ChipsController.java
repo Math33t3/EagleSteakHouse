@@ -41,10 +41,11 @@ public class ChipsController {
 
     @PostMapping("/updateChips")
     public ResponseEntity<Chips> updateChips(@RequestParam Long id, @RequestParam String name,
-                                           @RequestParam int price){
+                                             @RequestParam String description, @RequestParam int price){
         Chips chips = new Chips();
         chips.setId(id);
         chips.setName(name);
+        chips.setDescription(description);
         chips.setPrice(price);
         chipsService.save(chips);
         return new ResponseEntity<>(chips, HttpStatus.OK);
