@@ -25,7 +25,7 @@ public class PitaController {
         return new ResponseEntity<>(pita, HttpStatus.OK);
     }
 
-    @GetMapping("/GetPitaList")
+    @GetMapping("/getPitaList")
     public ResponseEntity<Set<Pita>> getPitaList(){
         return new ResponseEntity<>(pitaService.findAll(),HttpStatus.OK);
     }

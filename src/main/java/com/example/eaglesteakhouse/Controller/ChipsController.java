@@ -23,7 +23,7 @@ public class ChipsController {
         return new ResponseEntity<>(chips, HttpStatus.OK);
     }
 
-    @GetMapping("/GetChipsList")
+    @GetMapping("/getChipsList")
     public ResponseEntity<Set<Chips>> getChipsList(){
         return new ResponseEntity<>(chipsService.findAll(),HttpStatus.OK);
     }
