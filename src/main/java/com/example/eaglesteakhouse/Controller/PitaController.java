@@ -43,11 +43,12 @@ public class PitaController {
 
     @PostMapping("/updatePita")
         public ResponseEntity<Pita> updatePita(@RequestParam Long id, @RequestParam String name,
-                                               @RequestParam int price){
+                                               @RequestParam String description,@RequestParam int price){
         Pita pita = new Pita();
         pita.setId(id);
         pita.setName(name);
         pita.setPrice(price);
+        pita.setDescription(description);
         pitaService.save(pita);
         return new ResponseEntity<>(pita, HttpStatus.OK);
     }
