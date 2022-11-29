@@ -13,6 +13,10 @@ public class TurkBreadService implements ITurkBreadService{
 
     private TurkBreadRepo turkBreadRepo;
 
+    public TurkBreadService(TurkBreadRepo turkBreadRepo) {
+        this.turkBreadRepo = turkBreadRepo;
+    }
+
     @Override
     public Set<TurkBread> findAll() {
         Set<TurkBread> set = new HashSet<>();
