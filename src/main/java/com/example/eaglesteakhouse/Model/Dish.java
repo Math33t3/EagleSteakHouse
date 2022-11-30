@@ -1,14 +1,13 @@
 package com.example.eaglesteakhouse.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -23,5 +22,10 @@ public class Dish {
     private String name;
     private String description;
     private int price;
+
+    @ManyToOne
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude
+    private LunchOfferMenu dishLunchOffer;
 }
 
