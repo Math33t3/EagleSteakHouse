@@ -28,7 +28,7 @@ public class ChipsController {
         return new ResponseEntity<>(chipsService.findAll(),HttpStatus.OK);
     }
 
-    @GetMapping("/GetChipsById")
+    @GetMapping("/getChipsById")
     public ResponseEntity<Chips> getChipsById(@RequestParam Long id){
         Optional<Chips> chipsOptional = chipsService.findById(id);
         Chips voidChips = new Chips();

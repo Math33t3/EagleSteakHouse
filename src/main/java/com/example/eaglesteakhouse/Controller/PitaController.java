@@ -30,7 +30,7 @@ public class PitaController {
         return new ResponseEntity<>(pitaService.findAll(),HttpStatus.OK);
     }
 
-    @GetMapping("/GetPitaById")
+    @GetMapping("/getPitaById")
     public ResponseEntity<Pita> getPitaById(@RequestParam Long id){
         Optional<Pita> pitaOptional = pitaService.findById(id);
         Pita voidPita = new Pita();
