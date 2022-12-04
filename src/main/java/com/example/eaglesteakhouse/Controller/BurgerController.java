@@ -25,7 +25,7 @@ public class BurgerController {
         return new ResponseEntity<>(burger, HttpStatus.OK);
     }
 
-    @GetMapping("/getBurgerList")
+    @GetMapping("/getBurgerList")//Lavet denne til at sortere listen inden den sendes
     public ResponseEntity<List<Burger>> getBurgerList(){
 
         Set<Burger> mySet = burgerService.findAll();
