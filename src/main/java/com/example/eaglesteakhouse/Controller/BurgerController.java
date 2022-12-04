@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class BurgerController {
@@ -26,8 +26,18 @@ public class BurgerController {
     }
 
     @GetMapping("/getBurgerList")
-    public ResponseEntity<Set<Burger>> getBurgerList(){
-        return new ResponseEntity<>(burgerService.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<Burger>> getBurgerList(){
+
+        Set<Burger> mySet = burgerService.findAll();
+
+        List<Burger> myList = mySet.stream().sorted(new Comparator<Burger>() {
+            @Override
+            public int compare(Burger burger1, Burger burger2) {
+                return burger1.getId().compareTo(burger2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
 
     @GetMapping("/getBurgerById")
