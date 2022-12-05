@@ -1,13 +1,17 @@
 package com.example.eaglesteakhouse.Controller;
 
+
 import com.example.eaglesteakhouse.Model.Durum;
 import com.example.eaglesteakhouse.Service.DurumService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class DurumController {
@@ -29,6 +33,22 @@ public class DurumController {
     public ResponseEntity<Set<Durum>> getDurumList(){
         return new ResponseEntity<>(durumService.findAll(),HttpStatus.OK);
     }
+    @GetMapping("/getDurumList")
+    public ResponseEntity<List<Durum>> getDrinkList(){
+
+        Set<Durum> mySet = durumService.findAll();
+
+        List<Durum> myList = mySet.stream().sorted(new Comparator<Durum>() {
+            @Override
+            public int compare(Durum durum1, Durum durum2) {
+                return durum1.getId().compareTo(durum2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
+
+    }
+
 
     @GetMapping("/getDurumById")
     public ResponseEntity<Durum> getDurumById(@RequestParam Long id) {

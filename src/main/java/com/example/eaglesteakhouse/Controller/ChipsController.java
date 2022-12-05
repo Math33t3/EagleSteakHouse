@@ -1,14 +1,16 @@
 package com.example.eaglesteakhouse.Controller;
 
 import com.example.eaglesteakhouse.Model.Chips;
-import com.example.eaglesteakhouse.Model.Pita;
 import com.example.eaglesteakhouse.Service.ChipsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class ChipsController {
@@ -23,9 +25,19 @@ public class ChipsController {
         return new ResponseEntity<>(chips, HttpStatus.OK);
     }
 
-    @GetMapping("/getChipsList")
-    public ResponseEntity<Set<Chips>> getChipsList(){
-        return new ResponseEntity<>(chipsService.findAll(),HttpStatus.OK);
+    @GetMapping("/getChipsList")   //Lavet denne til at sortere listen inden den sendes
+    public ResponseEntity<List<Chips>> getChipsList(){
+
+        Set<Chips> mySet = chipsService.findAll();
+
+        List<Chips> myList = mySet.stream().sorted(new Comparator<Chips>() {
+            @Override
+            public int compare(Chips chips1, Chips chips2) {
+                return chips1.getId().compareTo(chips2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
 
     @GetMapping("/getChipsById")

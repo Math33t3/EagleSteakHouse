@@ -1,13 +1,17 @@
 package com.example.eaglesteakhouse.Controller;
 
+
 import com.example.eaglesteakhouse.Model.Dish;
 import com.example.eaglesteakhouse.Service.DishService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class DishController {
@@ -24,9 +28,20 @@ public class DishController {
     }
 
     @GetMapping("/getDishList")
-    public ResponseEntity<Set<Dish>> getDishList(){
-        return new ResponseEntity<>(dishService.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<Dish>> getDishList(){
+
+        Set<Dish> mySet = dishService.findAll();
+
+        List<Dish> myList = mySet.stream().sorted(new Comparator<Dish>() {
+            @Override
+            public int compare(Dish dish1, Dish dish2) {
+                return dish1.getId().compareTo(dish2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
+
 
     @GetMapping("/getDishById")
     public ResponseEntity<Dish> getDishById(@RequestParam Long id){
