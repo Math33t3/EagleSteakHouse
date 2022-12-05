@@ -28,8 +28,11 @@ public class BurgerController {
     @GetMapping("/getBurgerList")   //Lavet denne til at sortere listen inden den sendes
     public ResponseEntity<List<Burger>> getBurgerList(){
 
-        Set<Burger> mySet = burgerService.findAll();
-
+        Set<Burger> mySet = burgerService.findAll();//indlæser fra db, som jo er et Set
+        //herefter bruger vi .stream til at skrive alt i sættet ud
+        //efterfølgende bruger vi .sorted til at sortere, men her skal vi definere hvordan vores objeckter
+        //skal sammenlignes, så vi overwriter compare metoden
+        //til sidst bruger vi .collect til at samle vores sorterede stream til en ny liste, som vi returner
         List<Burger> myList = mySet.stream().sorted(new Comparator<Burger>() {
             @Override
             public int compare(Burger burger1, Burger burger2) {
