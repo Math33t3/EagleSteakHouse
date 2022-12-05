@@ -2,6 +2,7 @@ package com.example.eaglesteakhouse.Controller;
 
 import com.example.eaglesteakhouse.Model.Chips;
 import com.example.eaglesteakhouse.Model.Drink;
+import com.example.eaglesteakhouse.Model.Menu;
 import com.example.eaglesteakhouse.Model.Pita;
 import com.example.eaglesteakhouse.Service.ChipsService;
 import com.example.eaglesteakhouse.Service.PitaService;
@@ -9,8 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class PitaController {
@@ -25,10 +29,19 @@ public class PitaController {
         return new ResponseEntity<>(pita, HttpStatus.OK);
     }
 
-    @GetMapping("/getPitaList")
-    public ResponseEntity<Set<Pita>> getPitaList(){
-        return new ResponseEntity<>(pitaService.findAll(),HttpStatus.OK);
+    @GetMapping("/getPitaList")public ResponseEntity<List<Pita>> getPitaList(){
+
+        Set<Pita> mySet = pitaService.findAll();
+        List<Pita> myList = mySet.stream().sorted(new Comparator<Pita>() {
+            @Override
+            public int compare(Pita pita1, Pita pita2) {
+                return pita1.getId().compareTo(pita2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
+
 
     @GetMapping("/getPitaById")
     public ResponseEntity<Pita> getPitaById(@RequestParam Long id){

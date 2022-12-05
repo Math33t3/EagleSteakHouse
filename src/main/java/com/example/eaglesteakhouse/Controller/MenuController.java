@@ -1,13 +1,17 @@
 package com.example.eaglesteakhouse.Controller;
 
+import com.example.eaglesteakhouse.Model.Burger;
 import com.example.eaglesteakhouse.Model.Menu;
 import com.example.eaglesteakhouse.Service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class MenuController {
@@ -23,9 +27,18 @@ public class MenuController {
         return new ResponseEntity<>(menu, HttpStatus.OK);
     }
 
-    @GetMapping("/getMenuList")
-    public ResponseEntity<Set<Menu>> getMenuList(){
-        return new ResponseEntity<>(menuService.findAll(),HttpStatus.OK);
+    @GetMapping("/getMenuList")  //sorterer listen inden den sendes
+    public ResponseEntity<List<Menu>> getMenuList(){
+
+        Set<Menu> mySet = menuService.findAll();
+        List<Menu> myList = mySet.stream().sorted(new Comparator<Menu>() {
+            @Override
+            public int compare(Menu menu1, Menu menu2) {
+                return menu1.getId().compareTo(menu2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
 
     @GetMapping("/getMenuById")

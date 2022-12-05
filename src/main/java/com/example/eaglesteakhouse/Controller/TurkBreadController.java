@@ -1,6 +1,7 @@
 package com.example.eaglesteakhouse.Controller;
 
 import com.example.eaglesteakhouse.Model.Dish;
+import com.example.eaglesteakhouse.Model.Pita;
 import com.example.eaglesteakhouse.Model.TurkBread;
 import com.example.eaglesteakhouse.Service.DishService;
 import com.example.eaglesteakhouse.Service.TurkBreadService;
@@ -8,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class TurkBreadController {
@@ -26,8 +30,17 @@ public class TurkBreadController {
     }
 
     @GetMapping("/getTurkBreadList")
-    public ResponseEntity<Set<TurkBread>> getTurkBreadList(){
-        return new ResponseEntity<>(turkBreadService.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<TurkBread>> getTurkBreadList(){
+
+        Set<TurkBread> mySet = turkBreadService.findAll();
+        List<TurkBread> myList = mySet.stream().sorted(new Comparator<TurkBread>() {
+            @Override
+            public int compare(TurkBread turkBread1, TurkBread turkBread2) {
+                return turkBread1.getId().compareTo(turkBread2.getId());
+            }
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
 
     @GetMapping("/getTurkBreadById")
