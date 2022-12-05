@@ -28,13 +28,8 @@ public class DurumController {
         return new ResponseEntity<>(durum, HttpStatus.OK);
     }
 
-
     @GetMapping("/getDurumList")
-    public ResponseEntity<Set<Durum>> getDurumList(){
-        return new ResponseEntity<>(durumService.findAll(),HttpStatus.OK);
-    }
-    @GetMapping("/getDurumList")
-    public ResponseEntity<List<Durum>> getDrinkList(){
+    public ResponseEntity<List<Durum>> getDurumList(){
 
         Set<Durum> mySet = durumService.findAll();
 

@@ -25,7 +25,7 @@ public class ChipsController {
         return new ResponseEntity<>(chips, HttpStatus.OK);
     }
 
-    @GetMapping("/getChipsList")   //Lavet denne til at sortere listen inden den sendes
+    @GetMapping("/getChipsList")
     public ResponseEntity<List<Chips>> getChipsList(){
 
         Set<Chips> mySet = chipsService.findAll();
