@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -19,32 +20,32 @@ public class LunchOfferMenu {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "burgerLunchOffer")
-    private Set<Burger> burgerSet;
+    private List<Burger> burgerSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chipsLunchOffer")
-    private Set<Chips> chipsSet;
+    private List<Chips> chipsSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dishLunchOffer")
-    private Set<Dish> dishSet;
+    private List<Dish> dishSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "drinkLunchOffer")
-    private Set<Drink> drinkSet;
+    private List<Drink> drinkSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "durumLunchOffer")
-    private Set<Durum> durumSet;
+    private List<Durum> durumSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuLunchOffer")
-    private Set<Menu> menuSet;
+    private List<Menu> menuSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pitaLunchOffer")
-    private Set<Pita> pitaSet;
+    private List<Pita> pitaSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pizzaLunchOffer")
-    private Set<Pizza> pizzaSet;
+    private List<Pizza> pizzaSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pizzaSandwichLunchOffer")
-    private Set<PizzaSandwich> pizzaSandwichSet;
+    private List<PizzaSandwich> pizzaSandwichSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "turkBreadLunchOffer")
-    private Set<TurkBread> turkBreadSet;
+    private List<TurkBread> turkBreadSet;
 }
