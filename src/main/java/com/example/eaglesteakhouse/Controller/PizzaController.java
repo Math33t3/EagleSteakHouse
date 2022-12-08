@@ -1,13 +1,17 @@
 package com.example.eaglesteakhouse.Controller;
 
+
 import com.example.eaglesteakhouse.Model.Pizza;
 import com.example.eaglesteakhouse.Service.PizzaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -26,9 +30,19 @@ public class PizzaController {
     }
 
     @GetMapping("/getPizzaList")
-    public ResponseEntity<Set<Pizza>> getPizzaList(){
-        return new ResponseEntity<>(pizzaService.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<Pizza>> getPizzaList(){
+        Set<Pizza> mySet = pizzaService.findAll();
+
+        List<Pizza> myList = mySet.stream().sorted(new Comparator<Pizza>() {
+            @Override
+            public int compare(Pizza pizza1, Pizza pizza2) {
+                return pizza1.getId().compareTo(pizza2.getId());}
+        }).collect(Collectors.toList());
+
+
+        return new ResponseEntity<>(myList,HttpStatus.OK);
     }
+
 
 
     @GetMapping("/getPizzaById")
