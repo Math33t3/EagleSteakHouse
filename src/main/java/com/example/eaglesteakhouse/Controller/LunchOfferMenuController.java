@@ -6,8 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -53,9 +56,18 @@ public class LunchOfferMenuController {
 
 
     @GetMapping("/getLunchOfferMenuList")
-    public ResponseEntity<Set<LunchOfferMenu>> getLunchOfferMenuList() {
-        return new ResponseEntity<>(lunchOfferMenuService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<LunchOfferMenu>> getLunchOfferMenuList() {
+        Set<LunchOfferMenu> mySet =lunchOfferMenuService.findAll();
+
+        List<LunchOfferMenu> myList = mySet.stream().sorted(new Comparator<LunchOfferMenu>() {
+            @Override
+            public int compare(LunchOfferMenu o1, LunchOfferMenu o2) {
+                return o1.getId().compareTo(o2.getId());}
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(myList, HttpStatus.OK);
     }
+
 
     @GetMapping("/getLunchOfferMenuById")
     public ResponseEntity<LunchOfferMenu> getLunchOfferMenuById(@RequestParam Long id) {
